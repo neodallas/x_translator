@@ -1,0 +1,11 @@
+node_modules/
+package-lock.json
+package.json
+
+# Службові файли генерації
+generate-icons.js
+generate-icons.html
+icon-picker.html
+icon-preview.html
+icon.svg
+icon/

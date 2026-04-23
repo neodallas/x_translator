@@ -1,0 +1,43 @@
+.twt-translate-wrapper {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.twt-translate-btn {
+  background: transparent;
+  border: 1px solid #536471;
+  border-radius: 9999px;
+  color: #536471;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 12px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.twt-translate-btn:hover:not(:disabled) {
+  background: rgba(29, 155, 240, 0.1);
+  border-color: #1d9bf0;
+  color: #1d9bf0;
+}
+
+.twt-translate-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.twt-translation-result {
+  margin: 8px 0 4px 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--twt-border-color, #1d9bf0);
+  border-radius: 4px;
+  background: rgba(29, 155, 240, 0.06);
+  color: inherit;
+  font-size: var(--twt-font-size, 15px);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
