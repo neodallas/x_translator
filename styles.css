@@ -1,21 +1,23 @@
 .twt-translate-wrapper {
   display: inline-flex;
   align-items: center;
-  margin-left: 8px;
+  margin-right: 2px;
 }
 
 .twt-translate-btn {
   background: transparent;
-  border: 1px solid #536471;
+  border: 1px solid rgba(83, 100, 113, 0.5);
   border-radius: 9999px;
-  color: #536471;
+  color: #8899a6;
   cursor: pointer;
-  font-size: 13px;
-  padding: 2px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
   white-space: nowrap;
   font-family: inherit;
-  line-height: 1.5;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
 }
 
 .twt-translate-btn:hover:not(:disabled) {
@@ -25,7 +27,7 @@
 }
 
 .twt-translate-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: default;
 }
 

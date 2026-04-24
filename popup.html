@@ -143,9 +143,15 @@
       background: #d4d4d4;
     }
 
-    /* Power switch — червоний коли вимкнено */
+    /* Power switch — зелений коли ввімкнено, червоний коли вимкнено */
+    #enabled:checked + .track { background: #0d4a2e; }
+    #enabled:checked + .track::after { background: var(--success); }
     #enabled:not(:checked) + .track { background: #3a1515; }
     #enabled:not(:checked) + .track::after { background: var(--danger); }
+
+    /* Auto-translate — зелений коли ввімкнено */
+    #autoTranslate:checked + .track { background: #0d4a2e; }
+    #autoTranslate:checked + .track::after { background: var(--success); }
 
     /* ── Footer ── */
     .footer {

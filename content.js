@@ -108,7 +108,7 @@ async function translateWithRetry(text, targetLang, btn) {
       return await translateText(text, targetLang);
     } catch (err) {
       if (attempt < MAX_RETRIES) {
-        if (btn) btn.textContent = `Retry ${attempt + 1}/${MAX_RETRIES}...`;
+        if (btn) btn.textContent = `${attempt + 1}/${MAX_RETRIES}`;
         await new Promise(r => setTimeout(r, delays[attempt]));
       } else {
         throw err;
@@ -154,7 +154,8 @@ function getTweetText(article) {
 function createTranslateButton(article) {
   const btn = document.createElement('button');
   btn.className = 'twt-translate-btn';
-  btn.textContent = 'Translate';
+  btn.title = 'Translate';
+  btn.textContent = 'Tr';
 
   const resultBox = document.createElement('div');
   resultBox.className = 'twt-translation-result';
@@ -174,7 +175,8 @@ function createTranslateButton(article) {
     if (state === 'done') {
       if (!auto) {
         resultBox.hidden = !resultBox.hidden;
-        btn.textContent = resultBox.hidden ? 'Перекласти' : 'Сховати';
+        btn.style.opacity = resultBox.hidden ? '0.45' : '';
+        btn.title = resultBox.hidden ? 'Show translation' : 'Hide translation';
       }
       return;
     }
@@ -184,7 +186,7 @@ function createTranslateButton(article) {
 
     state = 'loading';
     if (!auto) {
-      btn.textContent = 'Loading...';
+      btn.textContent = '…';
       btn.disabled = true;
     }
 
@@ -197,7 +199,7 @@ function createTranslateButton(article) {
         if (auto) {
           wrapper.remove();
         } else {
-          btn.textContent = 'Already translated';
+          btn.textContent = '✓';
           btn.disabled = true;
           setTimeout(() => wrapper.remove(), 1500);
         }
@@ -207,14 +209,15 @@ function createTranslateButton(article) {
       resultBox.textContent = translation;
       resultBox.hidden = false;
       state = 'done';
-      btn.textContent = 'Hide';
+      btn.textContent = 'Tr';
+      btn.title = 'Hide translation';
 
     } catch {
       state = 'idle'; // дозволяємо повторну спробу
       if (!auto) {
         resultBox.textContent = 'Error. Please try again.';
         resultBox.hidden = false;
-        btn.textContent = 'Translate';
+        btn.textContent = 'Tr';
       }
     } finally {
       btn.disabled = false;
@@ -242,16 +245,19 @@ function injectButton(article) {
 
   const { wrapper, resultBox, doTranslate } = createTranslateButton(article);
 
-  // Дія-бар є у головних постах і відповідях (#7)
-  // Якщо його нема (цитати, превью) — додаємо під текст
-  const actionBar = article.querySelector('[role="group"]');
-  if (actionBar) {
-    actionBar.appendChild(wrapper);
+  // Вставляємо кнопку перед Grok (або перед "..." якщо Grok немає)
+  const caretBtn  = article.querySelector('[data-testid="caret"]');
+  const grokBtn   = article.querySelector('[data-testid="grok-actions"], [aria-label*="Grok"], [aria-label*="grok"]');
+  const anchorBtn = grokBtn ?? caretBtn;
+  if (anchorBtn) {
+    anchorBtn.parentElement.insertBefore(wrapper, anchorBtn);
   } else {
-    tweetTextEl.parentElement.appendChild(wrapper);
+    // Fallback: після тексту твіту
+    tweetTextEl.insertAdjacentElement('afterend', wrapper);
   }
 
-  tweetTextEl.parentElement.insertAdjacentElement('afterend', resultBox);
+  // Блок перекладу — під текстом
+  tweetTextEl.insertAdjacentElement('afterend', resultBox);
 
   // Зберігаємо для triggerAutoTranslateAll
   articleRegistry.set(article, doTranslate);
