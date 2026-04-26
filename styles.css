@@ -10,14 +10,13 @@
   border-radius: 9999px;
   color: #8899a6;
   cursor: pointer;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
   white-space: nowrap;
   font-family: inherit;
   line-height: 1.4;
-  letter-spacing: 0.02em;
 }
 
 .twt-translate-btn:hover:not(:disabled) {

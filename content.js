@@ -108,7 +108,7 @@ async function translateWithRetry(text, targetLang, btn) {
       return await translateText(text, targetLang);
     } catch (err) {
       if (attempt < MAX_RETRIES) {
-        if (btn) btn.textContent = `${attempt + 1}/${MAX_RETRIES}`;
+        if (btn) btn.textContent = `Retry ${attempt + 1}/${MAX_RETRIES}…`;
         await new Promise(r => setTimeout(r, delays[attempt]));
       } else {
         throw err;
@@ -154,8 +154,7 @@ function getTweetText(article) {
 function createTranslateButton(article) {
   const btn = document.createElement('button');
   btn.className = 'twt-translate-btn';
-  btn.title = 'Translate';
-  btn.textContent = 'Tr';
+  btn.textContent = 'Translate';
 
   const resultBox = document.createElement('div');
   resultBox.className = 'twt-translation-result';
@@ -175,8 +174,7 @@ function createTranslateButton(article) {
     if (state === 'done') {
       if (!auto) {
         resultBox.hidden = !resultBox.hidden;
-        btn.style.opacity = resultBox.hidden ? '0.45' : '';
-        btn.title = resultBox.hidden ? 'Show translation' : 'Hide translation';
+        btn.textContent = resultBox.hidden ? 'Translate' : 'Hide';
       }
       return;
     }
@@ -186,7 +184,7 @@ function createTranslateButton(article) {
 
     state = 'loading';
     if (!auto) {
-      btn.textContent = '…';
+      btn.textContent = 'Loading…';
       btn.disabled = true;
     }
 
@@ -209,15 +207,14 @@ function createTranslateButton(article) {
       resultBox.textContent = translation;
       resultBox.hidden = false;
       state = 'done';
-      btn.textContent = 'Tr';
-      btn.title = 'Hide translation';
+      btn.textContent = 'Hide';
 
     } catch {
       state = 'idle'; // дозволяємо повторну спробу
       if (!auto) {
         resultBox.textContent = 'Error. Please try again.';
         resultBox.hidden = false;
-        btn.textContent = 'Tr';
+        btn.textContent = 'Translate';
       }
     } finally {
       btn.disabled = false;
